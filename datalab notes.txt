@@ -1,0 +1,85 @@
+int m = 0xFF;
+  int mask = (m<<8 | m)<<16;
+  int sum;
+  int isNegOne;
+  int isOne = ((!((x>>bitCheck) ^ mask))<<31)>>31;
+  int isOne2;
+  int isOne3;
+  int isOne4;
+  int isOne5;
+  int isNotZero;
+
+  /*printf("isOne:    0x%08x\n", isOne);*/	
+
+  bitCheck2 = (~(isOne) & 24) | (isOne & 8);
+  isOne2 = ((!((x>>bitCheck2) ^ mask))<<31)>>31;
+  /*printf("bC2:    0x%08x\n", bitCheck2);*/	
+  /*printf("isOne2:    0x%08x\n", isOne2);*/
+
+  bitCheck3 = (~(isOne2) & (4 + bitCheck2)) | (isOne2 & (bitCheck2+((~4)+1)));
+  isOne3 = ((!((x>>bitCheck3) ^ mask))<<31)>>31;
+  /*printf("bC3:    0x%08x\n", bitCheck3);*/	
+  /*printf("isOne3:    0x%08x\n", isOne3);*/
+
+  bitCheck4 = (~(isOne3) & (2 + bitCheck3)) | (isOne3 & (bitCheck3+((~2)+1)));
+  isOne4 = ((!((x>>bitCheck4) ^ mask))<<31)>>31;
+  /*printf("bC4:    0x%08x\n", bitCheck4);*/	
+  /*printf("isOne4:    0x%08x\n", isOne4);*/
+
+  bitCheck5 = (~(isOne4) & (1 + bitCheck4)) | (isOne4 & (bitCheck4+((~1)+1)));
+  isOne5 = ((!((x>>bitCheck5) ^ mask))<<31)>>31;
+  /*printf("bC5:    0x%08x\n", bitCheck5);*/	
+  /*printf("isOne5:    0x%08x\n", isOne5);*/	
+  
+  sum = (isOne & bitCheck)
+      + (isOne2 & bitCheck2)
+      + (isOne3 & bitCheck3)
+      + (isOne4 & bitCheck4)
+      + (isOne5 & bitCheck5);
+  /* bitCheck6 = (~(isOne) & (1 + bitCheck5)) | (isOne & bitCheck5);*/
+  /*  bitCheck6 = (~(isOne) & (32 + (~(bitCheck5+2)+1))) | (isOne & (32 +(~bitCheck5+1)));*/
+  /*printf("bC6:    0x%08x\n", bitCheck6);*/	
+  isNegOne = (!(x ^ mask)<<31)>>31;
+  sum = (~isNegOne & sum)|(isNegOne & 32);
+  isNotZero = (x>>31);
+  sum = (~isNotZero & 32)|(isNotZero & sum);
+  /* bitCheck7 = (~(isNegOne) & bitCheck6) | (isNegOne & 32);*/
+  
+  return (((~bitCheck2+16)>>31)& (32-sum)) | (~((~bitCheck2+16)>>31) & sum);
+/*  int s = (x>>31) & mask;
+int s2 = ((x>>30) & mask)& s;
+int s3 = ((x>>29) & mask)& s2;
+int s4 = ((x>>28) & mask)& s3;
+int s5 = ((x>>27) & mask)& s4;
+int s6 = ((x>>26) & mask)& s5;
+int s7 = ((x>>25) & mask)& s6;
+int s8 = ((x>>24) & mask)& s7;
+int s9 = ((x>>23) & mask)& s8;
+int sa = ((x>>22) & mask)& s9;
+int sb = ((x>>21) & mask)& sa;
+int sc = ((x>>20) & mask)& sb;
+int sd = ((x>>19) & mask)& sc;
+int se = ((x>>18) & mask)& sd;
+int sf = ((x>>17) & mask)& se;
+int s10 = ((x>>16) & mask)& sf;
+int s11 = ((x>>15) & mask)& s10;
+int s12 = ((x>>14) & mask)& s11;
+int s13 = ((x>>13) & mask)& s12;
+int s14 = ((x>>12) & mask)& s13;
+int s15 = ((x>>11) & mask)& s14;
+int s16 = ((x>>10) & mask)& s15;
+int s17 = ((x>>9) & mask)& s16;
+int s18 = ((x>>8) & mask)& s17;
+int s19 = ((x>>7) & mask)& s18;
+int s1a = ((x>>6) & mask)& s19;
+int s1b = ((x>>5) & mask)& s1a;
+int s1c = ((x>>4) & mask)& s1b;
+int s1d = ((x>>3) & mask)& s1c;
+int s1e = ((x>>2) & mask)& s1d;
+int s1f = ((x>>1) & mask)& s1e;
+int s20 = (x & mask)& s1f;
+
+return (s + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + sa + sb + sc + sd + se + sf 
++ s10 + s11 + s12 + s13 + s14 + s15 + s16 + s17 + s18 + s19 + s1a + s1b + s1c + s1d + s1e + s1f + s20)
+;*/
+				
